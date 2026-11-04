@@ -25,13 +25,13 @@ Determine the current network subnet configuration using `ifconfig`[cite: 1]:
 ```bash
 ifconfig eth0
 
----
 
-## 2. Network Discovery Scan
-###
+## 1. Network Discovery Scan
+Run an Nmap ping scan across the subnet to locate active hosts[cite: 1]:
+```bash
 nmap -sn 192.168.56.0/24
 
----
+
 
 
 
