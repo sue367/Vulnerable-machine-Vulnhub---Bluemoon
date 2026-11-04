@@ -1,20 +1,3 @@
-# Vulnerable-machine-Vulnhub---Bluemoon
-Practical walkthroughs and scripts for ethical hacking labs, focusing on Linux privilege escalation, web enumeration, and credential brute-forcing
-# System Hacking Lab - Week 3: Privilege Escalation & Brute Force
-
-This repository contains documentation, commands, and walkthrough steps for the **Week 3 Lab**, focusing on system hacking stages, reconnaissance, vulnerability scanning, gaining access, privilege escalation, and credential cracking using the **BlueMoon: 2021** VulnHub machine.
-
----
-
-## Lab Objectives
-* Identify and exploit basic system vulnerabilities in a controlled, safe environment.
-* Perform network discovery, port scanning, and web enumeration.
-* Execute privilege escalation simulations (Vertical, Horizontal, and Hybrid).
-* Perform credential, hash, and file cracking using tools like John the Ripper and Hashcat.
-* Apply defensive strategies for each system hacking stage.
-
----
-
 ## System Hacking Lifecycle Applied
 
 | Stage | Actions & Methodology | Common Tools / Commands |
@@ -50,3 +33,25 @@ nmap -sC -sV -Pn -vv <TARGET_IP>
 dirb http://<TARGET_IP> /path/to/wordlist.txt -X .php,.html,.txt
 gobuster dir -u http://<TARGET_IP> --wordlist /usr/share/wordlists/directory-list-2.3-small.txt
 
+### Access & Privilege Escalation
+# Setting up a Netcat listener on the attacker machine
+nc -lvnp 4444
+
+# Checking available sudo privileges
+sudo -l
+
+# Spawining a full TTY shell
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+### Cracking Techniques (Hashes, Files, Keys)
+# Hash identification and cracking with John the Ripper
+hashid hash.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=RAW-MD5 hash.txt
+
+# Cracking encrypted zip files
+zip2john archive.zip > zip.hash
+john --wordlist=/usr/share/wordlists/rockyou.txt zip.hash
+
+# Cracking SSH private key passphrases
+python3 /opt/john/ssh2john.py id_rsa > ssh.hash
+john --wordlist=/usr/share/wordlists/rockyou.txt ssh.hash
