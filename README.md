@@ -27,6 +27,11 @@ ifconfig eth0
 
 ---
 
-### Network Discovery Scan
+## 2. Network Discovery Scan
+###
 nmap -sn 192.168.56.0/24
+
+---
+
+
 
