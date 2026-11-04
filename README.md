@@ -18,3 +18,15 @@
 * **Difficulty:** Easy
 
 ---
+
+## 1: Reconnaissance & Port Scanning
+### 1. Identify Local IP Address
+Determine the current network subnet configuration using `ifconfig`[cite: 1]:
+```bash
+ifconfig eth0
+
+---
+
+### Network Discovery Scan
+nmap -sn 192.168.56.0/24
+
