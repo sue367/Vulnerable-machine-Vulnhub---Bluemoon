@@ -10,8 +10,6 @@
 
 ## Executive Summary
 
-This repository documents the complete step-by-step penetration testing walkthrough of the **BlueMoon: 2021** virtual machine from VulnHub. Starting from local network discovery on `192.168.56.0/24`, enumeration uncovered an Apache web server hosting an unlinked directory (`/hidden_text`) containing a QR code with valid FTP credentials. Files downloaded from the FTP server provided a custom password wordlist (`p_lists.txt`) used to brute-force SSH credentials for user `robin`. Privilege escalation was then performed horizontally to `jerry` via command injection in a `sudo`-permitted script (`feedback.sh`), and vertically to `root` by abusing `jerry`'s membership in the `docker` group.
-
 | Step | Phase | Command / Tool Used | Key Finding / Result |
 | :--- | :--- | :--- | :--- |
 | **Step 1** | Network Setup | `ifconfig` | Attacker IP identified as `192.168.56.101` |
