@@ -53,14 +53,14 @@ Run a comprehensive full TCP port scan (-sV -p-) to identify all active listenin
 
 ![Step 3 - Scan Open Ports and Services](Screenshot%202026-11-25%20235052.png)
 Three open target network service ports were discovered during the initial scan: 
-Port 21: FTP (File Transfer Protocol service) 
-Port 22: SSH (Secure Shell remote access) 
+Port 21: FTP (File Transfer Protocol service)<br>
+Port 22: SSH (Secure Shell remote access)<br>
 Port 80: HTTP (Apache Web Server instance) 
 
 ## Step 4: Check with HTTP service 
 Go to to browser and navigate to http://192.168.56.102  
 
-![Step 4- Check with HTTP service](screenshots/Screenshot%202026-11-25%20235109.png)
+![Step 4- Check with HTTP service](Screenshot%202026-11-25%20235109.png)
 
 Directory Brute-Forcing :
 Since the main home page displays no useful information, run Gobuster with a standard wordlist to search for hidden web directories. 
