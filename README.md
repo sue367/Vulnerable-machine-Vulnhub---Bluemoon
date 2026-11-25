@@ -1,52 +1,41 @@
-## System Hacking Lifecycle Applied
+# BlueMoon: 2021 — VulnHub Machine Penetration Testing Report
 
-| Stage | Actions & Methodology | Common Tools / Commands |
-| :--- | :--- | :--- |
-| **1. Reconnaissance** | Gathering target IP, active hosts, and MAC addresses. | `netdiscover`, `nmap -sn`, `ifconfig` |
-| **2. Scanning** | Port scanning, service version detection, and web directory brute-forcing. | `nmap -sC -sV -Pn`, `gobuster`, `dirb` |
-| **3. Gaining Access** | Exploiting vulnerabilities, file uploads, or web shells to get initial entry. | Netcat (`nc`), Reverse Shells, Metasploit |
-| **4. Privilege Escalation** | Moving from a standard low-privilege user to root/admin (checking `sudo -l`, SUID binaries). | `sudo -l`, `su`, SUID search, GTFOBins |
-| **5. Maintaining Access** | Establishing persistence via backup scripts, SSH keys, or cron jobs. | Modifying `/etc/sudoers`, adding backdoor scripts |
-| **6. Clearing Tracks** | Removing artifacts, truncating logs, and clearing shell history. | `history -c`, clearing `.bash_history` |
+* **Author:** Nurul Suhaila
+* **Student ID:** 52215125568
+* **Course / Lab:** Lab Week 3 — Vulnerable Machine Penetration Testing & Privilege Escalation
+* **Target Machine:** BlueMoon: 2021 (VulnHub)
+* **Assessment Date:** 4 November 2026
 
 ---
 
-## Target Information
-* **Machine Name:** BlueMoon: 2021
-* **Author:** Kirthik [H4ck3r]
-* **Goal:** Get Root!
-* **Difficulty:** Easy
+## Executive Summary
+
+This repository documents the complete step-by-step penetration testing walkthrough of the **BlueMoon: 2021** virtual machine from VulnHub. Starting from local network discovery on `192.168.56.0/24`, enumeration uncovered an Apache web server hosting an unlinked directory (`/hidden_text`) containing a QR code with valid FTP credentials. Files downloaded from the FTP server provided a custom password wordlist (`p_lists.txt`) used to brute-force SSH credentials for user `robin`. Privilege escalation was then performed horizontally to `jerry` via command injection in a `sudo`-permitted script (`feedback.sh`), and vertically to `root` by abusing `jerry`'s membership in the `docker` group.
+
+| Step | Phase | Command / Tool Used | Key Finding / Result |
+| :--- | :--- | :--- | :--- |
+| **Step 1** | Network Setup | `ifconfig` | Attacker IP identified as `192.168.56.101` |
+| **Step 2** | Host Discovery | `nmap -sn 192.168.56.0/24` | Target VM identified at `192.168.56.102` |
+| **Step 3** | Port Scanning | `nmap -sV -p- 192.168.56.102` | Open ports: `21/tcp` (FTP), `22/tcp` (SSH), `80/tcp` (HTTP) |
+| **Step 4** | Web Enumeration | Browser + `gobuster dir` | Found landing page & hidden directory `/hidden_text` |
+| **Step 5** | QR Code Decoding | `zxing.org/w/decode` | Extracted FTP credentials (`userftp` / `ftpp@ssword`) |
+| **Step 6** | FTP Enumeration | `ftp 192.168.56.102` | Downloaded `information.txt` and `p_lists.txt` |
+| **Step 7** | File Inspection | `cat information.txt p_lists.txt` | Found hint for user `robin` & 32-password wordlist |
+| **Step 8** | SSH Brute-Force | `hydra -l robin -P p_lists.txt` | Discovered SSH password: `k4rv3ndh4nh4ck3r` |
+| **Step 9** | Initial Access | `ssh robin@192.168.56.102` | Logged in as `robin`; captured `user1.txt` |
+| **Step 10** | Sudo Enumeration | `sudo -l` | `robin` can run `/home/robin/project/feedback.sh` as `jerry` |
+| **Step 11** | Command Injection | `sudo -u jerry .../feedback.sh` | Injected `/bin/bash` into `$feedback` prompt |
+| **Step 12** | Horizontal Escalation | `whoami`, `cat /home/jerry/user2.txt` | Switched to `jerry`; captured `user2.txt` |
+| **Step 13** | Shell Stabilization | `python -c 'import pty; ...'` | Spawned interactive Bash pseudo-terminal |
+| **Step 14** | Group Enumeration | `id`, `docker image ls` | Confirmed `jerry` is in `docker` group (`alpine:latest` present) |
+| **Step 15–16** | Root Escalation | `docker run -v /:/mnt ... chroot` | Mounted host `/` and captured `root.txt` |
 
 ---
 
-### Step 1: Identify the Local IP Address
-Check the local network interface configuration and active IP address details using `ifconfig` to accurately determine the current subnet environment
-* **Local IP Address:** `192.168.56.101`
+## Step 1: Identify the Local IP Address
 
-### Step 2: Scan the Local Network for Targets
-Run an Nmap ping scan (`-sn`) across the local subnet range (`192.168.56.0/24`) to locate active IP addresses assigned to virtual machines on the network
-* Discovered target IP address: `192.168.56.102`
+First, check the local network interface configuration and active IP address details using `ifconfig` to determine the current subnet environment.
 
-### Step 3: Scan Open Ports and Services
-Run a comprehensive full TCP port scan (`-sV -p-`) against the target to identify active listening network services and exact version details
-* **Port 21/tcp:** FTP (`vsftpd 3.0.3`)
-* **Port 22/tcp:** SSH (`OpenSSH 7.9p1 Debian`)
-* **Port 80/tcp:** HTTP (`Apache httpd 2.4.38`)
-
-### Step 4: HTTP Service & Directory Brute-Forcing
-1. Navigated to `http://192.168.56.102` in the browser, which displayed a welcome landing page ("Are You Ready To Play With Me...!")
-2. Ran `gobuster` with the dirb common wordlist to discover hidden directories:
-   ```bash
-   gobuster dir -u [http://192.168.56.102](http://192.168.56.102) -w /usr/share/wordlists/dirb/common.txt
-
- ### Step 5: QR Code Decoding & Credential Extraction
-1. Navigated to `http://192.168.56.102/hidden_text` and clicked the "Thank you..." link to access a hidden page containing a QR code image
-2. Downloaded the QR code image and uploaded it to an online decoder service (`zxing.org`) to extract the embedded text payload
-3. **Decoded Output:** Revealed FTP credentials (`userftp`) and command structure (`HOST-10`, `USER=userftp`, `PASSWORD=Ptpassword`)
-
-### Step 6: FTP Login & File Retrieval
-Connected to the target FTP server using the recovered credentials and listed the remote directory contents
 ```bash
-ftp 192.168.56.102  
-
+ifconfig
 
