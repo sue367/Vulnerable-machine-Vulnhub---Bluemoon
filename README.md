@@ -4,7 +4,7 @@
 * **Student ID:** 52215125568
 * **Class:** L01-B01
 * **Course:** Computer System Security
-* ** Lab:** Lab Week 3: Vulnerable Machine Penetration Testing & Privilege Escalation
+* **Lab:** Lab Week 3: Vulnerable Machine Penetration Testing & Privilege Escalation
 * **Target Machine:** BlueMoon: 2021 (VulnHub)
 * **Assessment Date:** 4 November 2026
 
