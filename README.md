@@ -36,6 +36,8 @@ This repository documents the complete step-by-step penetration testing walkthro
 First, check the local network interface configuration and active IP address details using ifconfig 
 to accurately determine the current subnet environment. 
 
+(Screenshot 2026-11-25 235033.png)
+
 
 
 
