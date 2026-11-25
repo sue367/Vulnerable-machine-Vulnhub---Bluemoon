@@ -43,10 +43,10 @@ Next, run an Nmap ping scan (-sn) across the local subnet range to locate the ac
 assigned to the Bluemoon virtual machine. 
 
 ![Step 2 - Scan the Local Network for Targets](Screenshot%202026-11-25%20235043.png)
-Target IP address identified as: 192.168.56.1  
-: 192.168.56.100 
-: 192.168.56.102 
-: 192.168.56.101 
+Target IP address identified as: 192.168.56.1<br> 
+: 192.168.56.100<br>
+: 192.168.56.102<br>
+: 192.168.56.101
 
 ## Step 3: Scan Open Ports and Services 
 Run a comprehensive full TCP port scan (-sV -p-) to identify all active listening network services along with their exact running version details. 
