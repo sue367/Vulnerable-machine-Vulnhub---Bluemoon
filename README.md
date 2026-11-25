@@ -1,8 +1,10 @@
 # BlueMoon: 2021 — VulnHub Machine Penetration Testing Report
 
-* **Author:** Nurul Suhaila
+* **Student Name:** Nurul Suhaila Binti Anissufian
 * **Student ID:** 52215125568
-* **Course / Lab:** Lab Week 3 — Vulnerable Machine Penetration Testing & Privilege Escalation
+* **Class:** L01-B01
+* **Course:** Computer System Security
+* ** Lab:** Lab Week 3: Vulnerable Machine Penetration Testing & Privilege Escalation
 * **Target Machine:** BlueMoon: 2021 (VulnHub)
 * **Assessment Date:** 4 November 2026
 
