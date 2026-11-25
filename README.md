@@ -36,13 +36,13 @@ This repository documents the complete step-by-step penetration testing walkthro
 First, check the local network interface configuration and active IP address details using ifconfig 
 to accurately determine the current subnet environment. 
 
-![Step 1 - Identify the Local IP Address](screenshots/Screenshot%202026-11-25%20235033.png)
+![Step 1 - Identify the Local IP Address](Screenshot%202026-11-25%20235033.png)
 
 ## Step 2: Scan the Local Network for Targets 
 Next, run an Nmap ping scan (-sn) across the local subnet range to locate the active IP address 
 assigned to the Bluemoon virtual machine. 
 
-![Step 2 - Scan the Local Network for Targets](screenshots/Screenshot%202026-11-25%20235043.png)
+![Step 2 - Scan the Local Network for Targets](Screenshot%202026-11-25%20235043.png)
 
 
 
